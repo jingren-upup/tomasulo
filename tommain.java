@@ -1,14 +1,8 @@
 import java.io.*;
 import java.awt.*;
-import java.applet.Applet;
-import java.net.*;
-import java.util.*;
-import java.awt.BorderLayout;
 import java.util.Timer;
-import java.util.TimerTask;
 import java.util.Vector;
 import javax.swing.*;
-import java.awt.event.*;
 import javax.swing.table.DefaultTableModel;
 
 public class tommain{
@@ -55,16 +49,16 @@ public class tommain{
 		tomma = new tommain();
 		//tomm.run();
 		int order = 1;
-		tomma.set();
-		try{//读取文件
+//		tomma.set();
+		try{//read file
 			String ch1,ch2;
 			InputStreamReader r1 = new InputStreamReader(System.in);
 			BufferedReader r2 = new BufferedReader(r1);
-			System.out.println("输入要读取的文件名: ");
-			filename = r2.readLine();
+//			System.out.println("输入要读取的文件名: ");
+			filename = "order.txt";
 			File file_or = new File(filename);
 			if(!file_or.exists()){
-				System.out.println("文件不存在");
+				System.out.println("there is no such file");
 				return;
 			}
 			FileInputStream is = new FileInputStream(filename);
@@ -92,115 +86,12 @@ public class tommain{
 		JScrollPane jsp = new JScrollPane(table_t);
 		f.add(jsp);
 		jsp.setBounds(20,50,200,150);
-		tomma.update1();
+		tomma.update();
 		tomma.run();
 
 	}
 
-	public void set(){
-		String ch1,ch2;
-		ch1 = new String();
-		ch2 = new String();
-		while(true){
-			try{//读取文件
-				InputStreamReader r1 = new InputStreamReader(System.in);
-				BufferedReader r2 = new BufferedReader(r1);
-				System.out.println("输入命令: ");
-				ch1 = r2.readLine();
-			}catch(IOException e){
-				System.out.println("Extraordinarily");
-			}
-			String[] s;
-			s = ch1.split(" ");
-			if(s[0].equals("quit")){
-				break;
-			}else if(s[0].equals("setf")){
-				//设置寄存器的值
-				if(s.length > 2){
-					int fn = 0;
-					double fd = 0;
-					for(int i = 0;i < s[1].length();i ++){
-						fn = fn * 10 + s[1].charAt(i) - 48;
-					}
-					int fj,fk;
-					fj = 0;
-					fk = 0;
-					for(int i = 0;i < s[2].length();i ++){
-						if(s[2].charAt(i) == '.'){
-							fj = 1;
-						}else{
-							fd = fd * 10 + s[2].charAt(i) - 48;
-							if(fj == 1){
-								fk ++;
-							}
-						}
-					}
-					//System.out.println(fd + " " + fj + " " + fk);
 
-					double ffd = Math.pow(10,fk);
-					fd = fd / ffd;
-					//System.out.println(ffd + " " + fd + " " + fn);
-					if(fn < 30){
-						ud.tomdata.rrs_fd[fn] = fd;
-						run_uping();
-						up();
-					}
-				}
-			}else if(s[0].equals("setm")){
-				//设置MEM的值
-				if(s.length > 2){
-					int fn = 0;
-					double fd = 0;
-					for(int i = 0;i < s[1].length();i ++){
-						fn = fn * 10 + s[1].charAt(i) - 48;
-					}
-					int fj,fk;
-					fj = 0;
-					fk = 0;
-					for(int i = 0;i < s[2].length();i ++){
-						if(s[2].charAt(i) == '.'){
-							fj = 1;
-						}else{
-							fd = fd * 10 + s[2].charAt(i) - 48;
-							if(fj == 1){
-								fk ++;
-							}
-						}
-					}
-					//System.out.println(fd + " " + fj + " " + fk);
-
-					double ffd = Math.pow(10,fk);
-					fd = fd / ffd;
-					//System.out.println(ffd + " " + fd + " " + fn);
-					if(fn < 4096){
-						ud.tomdata.mem[fn] = fd;
-						run_uping();
-						up();
-					}
-				}
-			}else{
-				System.out.println("error order");
-			}
-		}
-		System.out.println("选择运行模式:step ,continue");
-		while(true){
-			try{//读取文件
-				InputStreamReader r1 = new InputStreamReader(System.in);
-				BufferedReader r2 = new BufferedReader(r1);
-				System.out.println("输入命令: ");
-				ch2 = r2.readLine();
-			}catch(IOException e){
-				System.out.println("Extraordinarily");
-			}
-			if(ch2.equals("step")){
-				step_or = true;
-				break;
-			}else if(ch2.equals("continue")){
-				step_or = false;
-				break;
-			}
-		}
-	}
 
 	public void run_uping(){
 		Vector<String> columnNames_ld = new Vector<String>();
@@ -229,14 +120,7 @@ public class tommain{
 		columnNames_rs.add("vk");
 		columnNames_rs.add("qi");
 		columnNames_rs.add("qk");
-			/*
-			for(int i = 0;i < 30;i ++){
-				String s = new String();
-				s = s + 'F';
-				s = s + i;
-				columnNames_f.add(s);
-			}
-			*/
+
 		columnNames_f.add("F_number");
 		columnNames_f.add("q");
 		columnNames_f.add("data");
@@ -306,7 +190,7 @@ public class tommain{
 					String ch1;
 					InputStreamReader r1 = new InputStreamReader(System.in);
 					BufferedReader r2 = new BufferedReader(r1);
-					System.out.println("请按任意键继续: ");
+					System.out.println("type any key to continue: ");
 					ch1 = r2.readLine();
 				}catch(IOException e){
 					System.out.println("Extraordinarily");
@@ -349,13 +233,13 @@ public class tommain{
 			f3 = 0;
 			char ch;
 			ch = information[ud.tomdata.pc].charAt(0);
-			if(information[ud.tomdata.pc].charAt(0) == 'A'){//加法
+			if(information[ud.tomdata.pc].charAt(0) == 'A'){//ADD
 				ud.tomdata.ins_op[0] = 3;
 				int k = 1;
-				for(int i = 0;i < information[ud.tomdata.pc].length();i ++){
+				for(int i = 0;i < information[ud.tomdata.pc].length();++i){
 					if(information[ud.tomdata.pc].charAt(i) == 'F'){
 						int ork = 0;
-						for(int j = i + 1;j < information[ud.tomdata.pc].length();j ++){
+						for(int j = i + 1;j < information[ud.tomdata.pc].length();++j){
 							if(information[ud.tomdata.pc].charAt(j) == ','){
 								break;
 							}else{
@@ -363,16 +247,16 @@ public class tommain{
 							}
 						}
 						ud.tomdata.ins_op[k] = ork;
-						k ++;
+						++k;
 					}
 				}
-			}else if(information[ud.tomdata.pc].charAt(0) == 'M'){//乘法
+			}else if(information[ud.tomdata.pc].charAt(0) == 'M'){//multiply
 				ud.tomdata.ins_op[0] = 5;
 				int k = 1;
-				for(int i = 0;i < information[ud.tomdata.pc].length();i ++){
+				for(int i = 0;i < information[ud.tomdata.pc].length();++i){
 					if(information[ud.tomdata.pc].charAt(i) == 'F'){
 						int ork = 0;
-						for(int j = i + 1;j < information[ud.tomdata.pc].length();j ++){
+						for(int j = i + 1;j < information[ud.tomdata.pc].length();++j){
 							if(information[ud.tomdata.pc].charAt(j) == ','){
 								break;
 							}else{
@@ -380,16 +264,16 @@ public class tommain{
 							}
 						}
 						ud.tomdata.ins_op[k] = ork;
-						k ++;
+						++k;
 					}
 				}
-			}else if(information[ud.tomdata.pc].charAt(0) == 'D'){//除法
+			}else if(information[ud.tomdata.pc].charAt(0) == 'D'){//divided
 				ud.tomdata.ins_op[0] = 6;
 				int k = 1;
-				for(int i = 0;i < information[ud.tomdata.pc].length();i ++){
+				for(int i = 0;i < information[ud.tomdata.pc].length();++i){
 					if(information[ud.tomdata.pc].charAt(i) == 'F'){
 						int ork = 0;
-						for(int j = i + 1;j < information[ud.tomdata.pc].length();j ++){
+						for(int j = i + 1;j < information[ud.tomdata.pc].length();++j){
 							if(information[ud.tomdata.pc].charAt(j) == ','){
 								break;
 							}else{
@@ -397,16 +281,16 @@ public class tommain{
 							}
 						}
 						ud.tomdata.ins_op[k] = ork;
-						k ++;
+						++k;
 					}
 				}
-			}else if(information[ud.tomdata.pc].charAt(0) == 'L'){//LD
+			}else if(information[ud.tomdata.pc].charAt(0) == 'L'){//load
 				ud.tomdata.ins_op[0] = 1;
 				int k = 1;
-				for(int i = 0;i < information[ud.tomdata.pc].length();i ++){
+				for(int i = 0;i < information[ud.tomdata.pc].length();++i){
 					if(information[ud.tomdata.pc].charAt(i) == 'F'){
 						int ork = 0;
-						for(int j = i + 1;j < information[ud.tomdata.pc].length();j ++){
+						for(int j = i + 1;j < information[ud.tomdata.pc].length();++j){
 							if(information[ud.tomdata.pc].charAt(j) == ','){
 								break;
 							}else{
@@ -414,13 +298,13 @@ public class tommain{
 							}
 						}
 						ud.tomdata.ins_op[k] = ork;
-						k ++;
+						++k;
 					}
 				}
-				for(int i = 0;i < information[ud.tomdata.pc].length();i ++){
+				for(int i = 0;i < information[ud.tomdata.pc].length();++i){
 					if(information[ud.tomdata.pc].charAt(i) == ','){
 						int ork = 0;
-						for(int j = i + 1;j < information[ud.tomdata.pc].length();j ++){
+						for(int j = i + 1;j < information[ud.tomdata.pc].length();++j){
 							ork = 10 * ork + information[ud.tomdata.pc].charAt(j) - 48;
 						}
 						ud.tomdata.ins_op[k] = ork;
@@ -430,10 +314,10 @@ public class tommain{
 			}else if(information[ud.tomdata.pc].charAt(0) == 'S' && information[ud.tomdata.pc].charAt(1) == 'U'){//sub
 				ud.tomdata.ins_op[0] = 4;
 				int k = 1;
-				for(int i = 0;i < information[ud.tomdata.pc].length();i ++){
+				for(int i = 0;i < information[ud.tomdata.pc].length();++i){
 					if(information[ud.tomdata.pc].charAt(i) == 'F'){
 						int ork = 0;
-						for(int j = i + 1;j < information[ud.tomdata.pc].length();j ++){
+						for(int j = i + 1;j < information[ud.tomdata.pc].length();++j){
 							if(information[ud.tomdata.pc].charAt(j) == ','){
 								break;
 							}else{
@@ -441,16 +325,16 @@ public class tommain{
 							}
 						}
 						ud.tomdata.ins_op[k] = ork;
-						k ++;
+						++k;
 					}
 				}
-			}else if(information[ud.tomdata.pc].charAt(0) == 'S' && information[ud.tomdata.pc].charAt(1) == 'T'){//ST
+			}else if(information[ud.tomdata.pc].charAt(0) == 'S' && information[ud.tomdata.pc].charAt(1) == 'T'){//Store
 				ud.tomdata.ins_op[0] = 2;
 				int k = 1;
-				for(int i = 0;i < information[ud.tomdata.pc].length();i ++){
+				for(int i = 0;i < information[ud.tomdata.pc].length();++i){
 					if(information[ud.tomdata.pc].charAt(i) == 'F'){
 						int ork = 0;
-						for(int j = i + 1;j < information[ud.tomdata.pc].length();j ++){
+						for(int j = i + 1;j < information[ud.tomdata.pc].length();++j){
 							if(information[ud.tomdata.pc].charAt(j) == ','){
 								break;
 							}else{
@@ -458,7 +342,7 @@ public class tommain{
 							}
 						}
 						ud.tomdata.ins_op[k] = ork;
-						k ++;
+						++k;
 					}
 				}
 				for(int i = 0;i < information[ud.tomdata.pc].length();i ++){
@@ -485,22 +369,13 @@ public class tommain{
 	public tommain(){
 		f = new JFrame("tom");
 		f.setBounds(0,0,1000,700);
-		//openfile = new JButton("open file");
-		//run_step = new JButton("run step");
-		//run_continue = new JButton("run continue");
+
 		f.setLayout(null);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//f.add(openfile);
-		//f.add(run_step);
-		//f.add(run_continue);
-		//openfile.setBounds(40,20,100,20);
-		//run_step.setBounds(240,20,100,20);
-		//run_continue.setBounds(440,20,100,20);
+
 		textarea = new TextArea();
 		f.add(new JScrollPane(textarea));
-		//openfile.addActionListener(this);
-		//run_step.addActionListener(this);
-		//run_continue.addActionListener(this);
+
 
 		Vector<String> columnNames = new Vector<String>();
 		columnNames.add("OP");
@@ -548,14 +423,7 @@ public class tommain{
 		columnNames_rs.add("vk");
 		columnNames_rs.add("qi");
 		columnNames_rs.add("qk");
-			/*
-			for(int i = 0;i < 30;i ++){
-				String s = new String();
-				s = s + 'F';
-				s = s + i;
-				columnNames_f.add(s);
-			}
-			*/
+
 
 		columnNames_f.add("F_number");
 		columnNames_f.add("q");
@@ -666,20 +534,10 @@ public class tommain{
 			rowData_mem.add(info);
 		}
 
-		/*
-		rowData.clear();
-		for (int i = 0; i < 10; i++) {
-			Vector<Object> info = new Vector<Object>();
-			info.add("");
-			info.add("");
-			info.add("");
-			info.add("");
-			rowData.add(info);
-		}
-		*/
+
 		f.setSize(1000,700);
 		f.setVisible(true);
-		//update();
+
 	}
 
 	private void up(){
@@ -889,31 +747,8 @@ public class tommain{
 		}.execute();
 
 	}
-	private void update(){
 
-		new SwingWorker<Object, Object>() {
-			protected Object doInBackground() throws Exception {
-
-				rowData.clear();
-				for (int i = 0; i < 10; i++) {
-					Vector<Object> info = new Vector<Object>();
-					info.add("");
-					info.add("");
-					info.add("");
-					info.add("");
-					rowData.add(info);
-				}
-
-				return null;
-			}
-			protected void done() {
-				((DefaultTableModel) table.getModel()).fireTableDataChanged();
-			}
-		}.execute();
-
-	}
-
-	public void update1(){
+	public void update(){
 
 		new SwingWorker<Object, Object>() {
 			protected Object doInBackground() throws Exception {
@@ -945,75 +780,4 @@ public class tommain{
 		}.execute();
 
 	}
-
-	/*
-	public void actionPerformed(ActionEvent event) {
-		if(event.getSource() == openfile){
-			if(runing == 0){
-				JFileChooser f1 = new JFileChooser();
-				int a;
-				a = f1.showOpenDialog(f);
-				if (a == JFileChooser.APPROVE_OPTION){
-					File file = f1.getSelectedFile();
-					textarea.append(file.getAbsolutePath()+"\n");
-
-					filename = file.getName();
-					System.out.println(filename);
-					//tomm.run();
-					int order = 1;
-					try{//读取文件
-						String ch1,ch2;
-						//InputStreamReader r1 = new InputStreamReader(System.in);
-						//BufferedReader r2 = new BufferedReader(r1);
-						//System.out.println("输入要读取的文件名: ");
-						//ch1 = r2.readLine();
-						File file_or = new File(filename);
-						if(!file_or.exists()){
-							System.out.println("文件不存在");
-							return;
-						}
-						FileInputStream is = new FileInputStream(filename);
-						InputStreamReader ir = new InputStreamReader(is);
-						BufferedReader in = new BufferedReader(ir);
-						while(true){
-							information[order] = in.readLine();
-							if(information[order].equals("END")){
-								System.out.println(information[order] + " " + order);
-								break;
-							}
-							order ++;
-						}
-					}catch(IOException e){
-						System.out.println("Extraordinarily");
-					}
-
-					Vector<String> columnNames = new Vector<String>();
-					columnNames.add("OP");
-					columnNames.add("F1");
-					columnNames.add("F2");
-					columnNames.add("F3");
-					//JTable table;
-					table_t = new JTable(new DefaultTableModel(rowData, columnNames));
-					JScrollPane jsp = new JScrollPane(table_t);
-					f.add(jsp);
-					jsp.setBounds(50,50,150,150);
-					update1();
-					runing ++;
-					tomma.run();
-				}
-			}
-		}
-		else if(event.getSource() == run_step){
-			if(runing == 1){
-				f.run();
-				runing ++;
-			}
-		}else if(event.getSource() == run_continue){
-			if(runing == 1){
-				f.run();
-				runing ++;
-			}
-		}
-
-	}*/
 }
