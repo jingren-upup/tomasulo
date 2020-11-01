@@ -1,8 +1,3 @@
-import java.io.*;
-import java.awt.image.*;
-import java.applet.Applet;
-import java.net.*;
-import java.util.*;
 public class tomasulo{
 	public void go(data d){
 		switch (d.ins_op[0]){

@@ -49,12 +49,11 @@ public class tommain{
 		tomma = new tommain();
 		//tomm.run();
 		int order = 1;
-//		tomma.set();
 		try{//read file
 			String ch1,ch2;
 			InputStreamReader r1 = new InputStreamReader(System.in);
 			BufferedReader r2 = new BufferedReader(r1);
-//			System.out.println("输入要读取的文件名: ");
+
 			filename = "order.txt";
 			File file_or = new File(filename);
 			if(!file_or.exists()){
@@ -221,146 +220,35 @@ public class tommain{
 				}
 			}
 		}
-		//run_p();
+
 	}
 	public void run_p(){
-		//while(true){
 
-		if(pc_read != ud.tomdata.pc){
-			int f1,f2,f3;
-			f1 = 0;
-			f2 = 0;
-			f3 = 0;
-			char ch;
-			ch = information[ud.tomdata.pc].charAt(0);
-			if(information[ud.tomdata.pc].charAt(0) == 'A'){//ADD
+		if(pc_read != ud.tomdata.pc) {
+
+			if (information[ud.tomdata.pc].charAt(0) == 'A') {//ADD
 				ud.tomdata.ins_op[0] = 3;
-				int k = 1;
-				for(int i = 0;i < information[ud.tomdata.pc].length();++i){
-					if(information[ud.tomdata.pc].charAt(i) == 'F'){
-						int ork = 0;
-						for(int j = i + 1;j < information[ud.tomdata.pc].length();++j){
-							if(information[ud.tomdata.pc].charAt(j) == ','){
-								break;
-							}else{
-								ork = 10 * ork + information[ud.tomdata.pc].charAt(j) - 48;
-							}
-						}
-						ud.tomdata.ins_op[k] = ork;
-						++k;
-					}
-				}
-			}else if(information[ud.tomdata.pc].charAt(0) == 'M'){//multiply
+				operation();
+			} else if (information[ud.tomdata.pc].charAt(0) == 'M') {//multiply
 				ud.tomdata.ins_op[0] = 5;
-				int k = 1;
-				for(int i = 0;i < information[ud.tomdata.pc].length();++i){
-					if(information[ud.tomdata.pc].charAt(i) == 'F'){
-						int ork = 0;
-						for(int j = i + 1;j < information[ud.tomdata.pc].length();++j){
-							if(information[ud.tomdata.pc].charAt(j) == ','){
-								break;
-							}else{
-								ork = 10 * ork + information[ud.tomdata.pc].charAt(j) - 48;
-							}
-						}
-						ud.tomdata.ins_op[k] = ork;
-						++k;
-					}
-				}
-			}else if(information[ud.tomdata.pc].charAt(0) == 'D'){//divided
+				operation();
+			} else if (information[ud.tomdata.pc].charAt(0) == 'D') {//divided
 				ud.tomdata.ins_op[0] = 6;
-				int k = 1;
-				for(int i = 0;i < information[ud.tomdata.pc].length();++i){
-					if(information[ud.tomdata.pc].charAt(i) == 'F'){
-						int ork = 0;
-						for(int j = i + 1;j < information[ud.tomdata.pc].length();++j){
-							if(information[ud.tomdata.pc].charAt(j) == ','){
-								break;
-							}else{
-								ork = 10 * ork + information[ud.tomdata.pc].charAt(j) - 48;
-							}
-						}
-						ud.tomdata.ins_op[k] = ork;
-						++k;
-					}
-				}
-			}else if(information[ud.tomdata.pc].charAt(0) == 'L'){//load
+				operation();
+			} else if (information[ud.tomdata.pc].charAt(0) == 'L') {//load
 				ud.tomdata.ins_op[0] = 1;
-				int k = 1;
-				for(int i = 0;i < information[ud.tomdata.pc].length();++i){
-					if(information[ud.tomdata.pc].charAt(i) == 'F'){
-						int ork = 0;
-						for(int j = i + 1;j < information[ud.tomdata.pc].length();++j){
-							if(information[ud.tomdata.pc].charAt(j) == ','){
-								break;
-							}else{
-								ork = 10 * ork + information[ud.tomdata.pc].charAt(j) - 48;
-							}
-						}
-						ud.tomdata.ins_op[k] = ork;
-						++k;
-					}
-				}
-				for(int i = 0;i < information[ud.tomdata.pc].length();++i){
-					if(information[ud.tomdata.pc].charAt(i) == ','){
-						int ork = 0;
-						for(int j = i + 1;j < information[ud.tomdata.pc].length();++j){
-							ork = 10 * ork + information[ud.tomdata.pc].charAt(j) - 48;
-						}
-						ud.tomdata.ins_op[k] = ork;
-						ud.tomdata.ins_ls = ork;
-					}
-				}
-			}else if(information[ud.tomdata.pc].charAt(0) == 'S' && information[ud.tomdata.pc].charAt(1) == 'U'){//sub
+				operation();
+			} else if (information[ud.tomdata.pc].charAt(0) == 'S' && information[ud.tomdata.pc].charAt(1) == 'U') {//sub
 				ud.tomdata.ins_op[0] = 4;
-				int k = 1;
-				for(int i = 0;i < information[ud.tomdata.pc].length();++i){
-					if(information[ud.tomdata.pc].charAt(i) == 'F'){
-						int ork = 0;
-						for(int j = i + 1;j < information[ud.tomdata.pc].length();++j){
-							if(information[ud.tomdata.pc].charAt(j) == ','){
-								break;
-							}else{
-								ork = 10 * ork + information[ud.tomdata.pc].charAt(j) - 48;
-							}
-						}
-						ud.tomdata.ins_op[k] = ork;
-						++k;
-					}
-				}
-			}else if(information[ud.tomdata.pc].charAt(0) == 'S' && information[ud.tomdata.pc].charAt(1) == 'T'){//Store
+				operation();
+			} else if (information[ud.tomdata.pc].charAt(0) == 'S' && information[ud.tomdata.pc].charAt(1) == 'T') {//Store
 				ud.tomdata.ins_op[0] = 2;
-				int k = 1;
-				for(int i = 0;i < information[ud.tomdata.pc].length();++i){
-					if(information[ud.tomdata.pc].charAt(i) == 'F'){
-						int ork = 0;
-						for(int j = i + 1;j < information[ud.tomdata.pc].length();++j){
-							if(information[ud.tomdata.pc].charAt(j) == ','){
-								break;
-							}else{
-								ork = 10 * ork + information[ud.tomdata.pc].charAt(j) - 48;
-							}
-						}
-						ud.tomdata.ins_op[k] = ork;
-						++k;
-					}
-				}
-				for(int i = 0;i < information[ud.tomdata.pc].length();i ++){
-					if(information[ud.tomdata.pc].charAt(i) == ','){
-						int ork = 0;
-						for(int j = i + 1;j < information[ud.tomdata.pc].length();j ++){
-							ork = 10 * ork + information[ud.tomdata.pc].charAt(j) - 48;
-						}
-						ud.tomdata.ins_op[k] = ork;
-						ud.tomdata.ins_ls = ork;
-					}
-				}
-			}else{
+				operation();
+			} else {
 				ud.tomdata.ins_op[0] = 0;
 			}
-		}else{
-			ud.tomdata.ins_op[0] = 0;
 		}
+
 		pc_read = ud.tomdata.pc;
 		ud.tomdata.clock ++;
 		System.out.println(ud.tomdata.ins_op[0] + " " + ud.tomdata.ins_op[1]);
@@ -396,7 +284,6 @@ public class tommain{
 			info.add("");
 			rowData.add(info);
 		}
-		//update();
 		Vector<String> columnNames_ld = new Vector<String>();
 		Vector<String> columnNames_st = new Vector<String>();
 		Vector<String> columnNames_rs = new Vector<String>();
@@ -539,7 +426,52 @@ public class tommain{
 		f.setVisible(true);
 
 	}
-
+	public void operation(){
+		int k = 1;
+		for(int i = 0;i < information[ud.tomdata.pc].length();++i){
+			if(information[ud.tomdata.pc].charAt(i) == 'F'){
+				int ork = 0;
+				for(int j = i + 1;j < information[ud.tomdata.pc].length();++j){
+					if(information[ud.tomdata.pc].charAt(j) == ','){
+						break;
+					}else{
+						ork = 10 * ork + information[ud.tomdata.pc].charAt(j) - 48;
+					}
+				}
+				ud.tomdata.ins_op[k] = ork;
+				ud.tomdata.ins_ls = ork;
+				++k;
+			}
+		}
+	}
+//	public void operation1(){
+//		int k = 1;
+//		for(int i = 0;i < information[ud.tomdata.pc].length();++i){
+//			if(information[ud.tomdata.pc].charAt(i) == 'F'){
+//				int ork = 0;
+//				for(int j = i + 1;j < information[ud.tomdata.pc].length();++j){
+//					if(information[ud.tomdata.pc].charAt(j) == ','){
+//						break;
+//					}else{
+//						ork = 10 * ork + information[ud.tomdata.pc].charAt(j) - 48;
+//					}
+//				}
+//				ud.tomdata.ins_op[k] = ork;
+//				ud.tomdata.ins_ls = ork;
+//				++k;
+//			}
+//		}
+//		for(int i = 0;i < information[ud.tomdata.pc].length();i ++){
+//			if(information[ud.tomdata.pc].charAt(i) == ','){
+//				int ork = 0;
+//				for(int j = i + 1;j < information[ud.tomdata.pc].length();j ++){
+//					ork = 10 * ork + information[ud.tomdata.pc].charAt(j) - 48;
+//				}
+//				ud.tomdata.ins_op[k] = ork;
+//				ud.tomdata.ins_ls = ork;
+//			}
+//		}
+//	}
 	private void up(){
 
 		new SwingWorker<Object, Object>() {
@@ -732,7 +664,6 @@ public class tommain{
 					rowData_mem.add(info);
 				}
 
-				//((DefaultTableModel) table_ld.getModel()).fireTableDataChanged();
 				return null;
 			}
 			protected void done() {
