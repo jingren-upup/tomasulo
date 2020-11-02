@@ -92,7 +92,7 @@ public class tommain{
 	}
 	private void write() throws IOException{
 		outputname = "output.txt";
-		String result = "cycle number is£º"+ String.valueOf(ud.tomdata.clock) ;
+		String result = "cycle number is£º"+ ud.tomdata.clock + "\ninstruments number: " + ud.tomdata.pc;
 		try {
 			File file = new File("./output.txt");
 			if(!file.exists()){
