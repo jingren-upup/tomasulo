@@ -1,19 +1,19 @@
 import java.io.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.Vector;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 public class tommain{
-	public static final long serialVersionUID = -4892684184268025880L;
-	public static final Timer time = new Timer("tommain");
+
 	public static JFrame f;
-	public static JButton openfile,run_step,run_continue;
 	public static TextArea textarea;
 	public static String filename;
-	public static datainit ud;
-	public static tommain tomm;
+	public static String outputname;
+	public static datainitialize ud;
+
 	public static int runing;
 	public static int pc_read;
 	public static tomasulo tom = new tomasulo();
@@ -38,22 +38,38 @@ public class tommain{
 	public  static Vector<Vector<Object>> rowData_icr = new Vector<Vector<Object>>();
 	public  static  Vector<Vector<Object>> rowData_mem = new Vector<Vector<Object>>();
 	public static Vector<Vector<Object>> rowData_clock = new Vector<Vector<Object>>();
+	Vector<String> columnNames = new Vector<String>();
 	public static tommain tomma;
 
-	public static void main(String[] args){
-		ud = new datainit();
-		//datainit testd = new datainit();
+	public static void main(String[] args) throws IOException {
+		tomma = new tommain();
+		ud = new datainitialize();
 		ud.init();
 		information = new String[1000];
 		runing = 0;
-		tomma = new tommain();
-		//tomm.run();
+		tomma.read();
+		tomma.addCol();
+
+		JScrollPane jsp = new JScrollPane(table_t);
+		f.add(jsp);
+		jsp.setBounds(20,50,200,150);
+
+		tomma.update();
+		tomma.run();
+		tomma.write();
+
+
+	}
+	private void addCol(){
+		columnNames.add("OP");
+		columnNames.add("F1");
+		columnNames.add("F2");
+		columnNames.add("F3");
+		table_t = new JTable(new DefaultTableModel(rowData, columnNames));
+	}
+	private void read() throws  IOException{
 		int order = 1;
 		try{//read file
-			String ch1,ch2;
-			InputStreamReader r1 = new InputStreamReader(System.in);
-			BufferedReader r2 = new BufferedReader(r1);
-
 			filename = "order.txt";
 			File file_or = new File(filename);
 			if(!file_or.exists()){
@@ -66,32 +82,31 @@ public class tommain{
 			while(true){
 				information[order] = in.readLine();
 				if(information[order].equals("END")){
-					System.out.println(information[order] + " " + order);
 					break;
 				}
-				order ++;
+				++order;
 			}
 		}catch(IOException e){
 			System.out.println("Extraordinarily");
 		}
-
-		Vector<String> columnNames = new Vector<String>();
-		columnNames.add("OP");
-		columnNames.add("F1");
-		columnNames.add("F2");
-		columnNames.add("F3");
-		//JTable table;
-		table_t = new JTable(new DefaultTableModel(rowData, columnNames));
-		JScrollPane jsp = new JScrollPane(table_t);
-		f.add(jsp);
-		jsp.setBounds(20,50,200,150);
-		tomma.update();
-		tomma.run();
-
 	}
-
-
-
+	private void write() throws IOException{
+		outputname = "output.txt";
+		String result = "cycle number is£º"+ String.valueOf(ud.tomdata.clock) ;
+		try {
+			File file = new File("./output.txt");
+			if(!file.exists()){
+				file.createNewFile();
+			}
+			FileWriter fw = new FileWriter(file,false);
+			BufferedWriter bw = new BufferedWriter(fw);
+			bw.write(result);
+			bw.close();
+			fw.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
 	public void run_uping(){
 		Vector<String> columnNames_ld = new Vector<String>();
 		Vector<String> columnNames_st = new Vector<String>();
@@ -250,12 +265,12 @@ public class tommain{
 		}
 
 		pc_read = ud.tomdata.pc;
-		ud.tomdata.clock ++;
-		System.out.println(ud.tomdata.ins_op[0] + " " + ud.tomdata.ins_op[1]);
+		++ud.tomdata.clock ;
+//		System.out.println(ud.tomdata.ins_op[0] + " " + ud.tomdata.ins_op[1]);
 		tom.go(ud.tomdata);
 	}
 	public tommain(){
-		f = new JFrame("tom");
+		f = new JFrame("tomasulo");
 		f.setBounds(0,0,1000,700);
 
 		f.setLayout(null);
@@ -444,34 +459,6 @@ public class tommain{
 			}
 		}
 	}
-//	public void operation1(){
-//		int k = 1;
-//		for(int i = 0;i < information[ud.tomdata.pc].length();++i){
-//			if(information[ud.tomdata.pc].charAt(i) == 'F'){
-//				int ork = 0;
-//				for(int j = i + 1;j < information[ud.tomdata.pc].length();++j){
-//					if(information[ud.tomdata.pc].charAt(j) == ','){
-//						break;
-//					}else{
-//						ork = 10 * ork + information[ud.tomdata.pc].charAt(j) - 48;
-//					}
-//				}
-//				ud.tomdata.ins_op[k] = ork;
-//				ud.tomdata.ins_ls = ork;
-//				++k;
-//			}
-//		}
-//		for(int i = 0;i < information[ud.tomdata.pc].length();i ++){
-//			if(information[ud.tomdata.pc].charAt(i) == ','){
-//				int ork = 0;
-//				for(int j = i + 1;j < information[ud.tomdata.pc].length();j ++){
-//					ork = 10 * ork + information[ud.tomdata.pc].charAt(j) - 48;
-//				}
-//				ud.tomdata.ins_op[k] = ork;
-//				ud.tomdata.ins_ls = ork;
-//			}
-//		}
-//	}
 	private void up(){
 
 		new SwingWorker<Object, Object>() {
@@ -678,7 +665,6 @@ public class tommain{
 		}.execute();
 
 	}
-
 	public void update(){
 
 		new SwingWorker<Object, Object>() {

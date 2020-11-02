@@ -1,10 +1,5 @@
-import java.io.*;
-import java.awt.image.*;
-import java.applet.Applet;
-import java.net.*;
-import java.util.*;
 
-public class datainit{
+public class datainitialize {
 	data tomdata;
 	public void init(){
 		tomdata.pc = 0;
@@ -52,10 +47,11 @@ public class datainit{
 		for(int i = 0;i < 30;i ++){
 			tomdata.rrs_f[i] = 0;
 			tomdata.rrs_ff[i] = 0;
+			tomdata.rrs_fd[i] = 1;
 		}
-		tomdata.mem = new double[4096];
-		for(int i = 0;i < 4096;i ++){
-			tomdata.mem[i] = 0;
+		tomdata.mem = new double[40];
+		for(int i = 0;i < 40;i ++){
+			tomdata.mem[i] = 1;
 		}
 	}
 }
